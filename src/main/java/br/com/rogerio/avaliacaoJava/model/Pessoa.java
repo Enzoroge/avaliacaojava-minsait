@@ -7,27 +7,28 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "pessoas")
 public class Pessoa {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(nullable = false)
 	private String nome;
-	
+
 	private String endereco;
 	private String cep;
 	private String cidade;
 	private String uf;
-	
+
 	public Pessoa() {
 		super();
-		
+
 	}
 
 	public Pessoa(Long id, String nome, String endereco, String cep, String cidade, String uf) {
@@ -104,9 +105,5 @@ public class Pessoa {
 		Pessoa other = (Pessoa) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-	
-	
 
 }
