@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.rogerio.avaliacaoJava.model.Contato;
 import br.com.rogerio.avaliacaoJava.repository.ContatoRepository;
+import br.com.rogerio.avaliacaoJava.service.interfaces.ContatoServiceInterface;
 
 @Service
 public class ContatoService implements ContatoServiceInterface {

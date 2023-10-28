@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-
 import br.com.rogerio.avaliacaoJava.model.Pessoa;
 import br.com.rogerio.avaliacaoJava.repository.PessoaRepository;
+import br.com.rogerio.avaliacaoJava.service.interfaces.PessoaServiceInterface;
 
 @Service
 public class PessoaService implements PessoaServiceInterface {
@@ -37,7 +37,7 @@ public class PessoaService implements PessoaServiceInterface {
 	@Override
 	public Pessoa update(Pessoa pessoa) {
 		Optional<Pessoa> upPessoa = pessoaRepository.findById(pessoa.getId());
-		if(upPessoa.isPresent()){
+		if (upPessoa.isPresent()) {
 			Pessoa newPessoa = upPessoa.get();
 			newPessoa.setCep(pessoa.getCep());
 			newPessoa.setCidade(pessoa.getCidade());
