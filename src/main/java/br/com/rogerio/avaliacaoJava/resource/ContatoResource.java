@@ -17,9 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.rogerio.avaliacaoJava.model.Contato;
 import br.com.rogerio.avaliacaoJava.service.ContatoService;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
-@RequestMapping(value = "/api/contatos")
+@RequestMapping(value = "/contatos")
 public class ContatoResource {
 
 	private ContatoService contatoService;
@@ -29,11 +30,13 @@ public class ContatoResource {
 		this.contatoService = contatoService;
 	}
 
-	@PostMapping(value = "/api/pessoas/{id}/contatos")
+	@Operation(summary = "Método para adcionar um contato a uma pessoa")
+	@PostMapping(value = "/pessoas/{id}/contatos")
 	public ResponseEntity<Contato> save(@RequestBody Contato obj) {
 		return new ResponseEntity<>(contatoService.save(obj), HttpStatus.CREATED);
 	}
 
+	@Operation(summary = "Metodo para Listar todos os contatos")
 	@GetMapping
 	public ResponseEntity<List<Contato>> getAll() {
 		List<Contato> contato = contatoService.getAll();
@@ -44,6 +47,7 @@ public class ContatoResource {
 		return ResponseEntity.ok().body(contato);
 	}
 
+	@Operation(summary = "Método para buscar um contato por id")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Optional<Contato>> getById(@PathVariable Long id) {
 		Optional<Contato> contato = contatoService.getById(id);
@@ -53,11 +57,13 @@ public class ContatoResource {
 		return ResponseEntity.ok().body(contato);
 	}
 	
-	@PutMapping
+	@Operation(summary = "Método para atualizar um contato existente")
+	@PutMapping(value = "/{id}")
 	public ResponseEntity<Contato> update(@RequestBody Contato contato){
 		return new ResponseEntity(contatoService.update(contato), HttpStatus.CREATED);
 	}
 	
+	@Operation(summary = "Método para remover um contato")
 	@DeleteMapping(value="/api/contatos/{id}")
 		public ResponseEntity<?> delete(@PathVariable Long id){
 			contatoService.delete(id);

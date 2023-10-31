@@ -77,7 +77,7 @@ public class PessoaResource {
 	}
 	
 	@Operation(summary = "Método para atualizar uma pessoa existente")
-	@PutMapping
+	@PutMapping(value = "/{id}")
 	public ResponseEntity<Pessoa> update(@RequestBody Pessoa pessoa){
 		Pessoa novaPessoa = pessoaService.update(pessoa);
 		if(novaPessoa == null) {
