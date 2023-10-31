@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import br.com.rogerio.avaliacaoJava.dto.PessoaDTO;
 import br.com.rogerio.avaliacaoJava.model.Pessoa;
 import br.com.rogerio.avaliacaoJava.repository.PessoaRepository;
 import br.com.rogerio.avaliacaoJava.service.interfaces.PessoaServiceInterface;
@@ -25,7 +26,12 @@ public class PessoaService implements PessoaServiceInterface {
 	}
 
 	@Override
-	public Optional<Pessoa> getById(Long id) {
+	public Optional<PessoaDTO> getById(Long id) {
+		return Optional.empty();
+	}
+	
+	@Override
+	public Optional<Pessoa> getById1(Long id){
 		return pessoaRepository.findById(id);
 	}
 
@@ -53,6 +59,11 @@ public class PessoaService implements PessoaServiceInterface {
 	public void delete(Long id) {
 		pessoaRepository.deleteById(id);
 
+	}
+
+	public Optional<Pessoa> findById(Long id) {
+		// TODO Auto-generated method stub
+		return pessoaRepository.findById(id);
 	}
 
 }

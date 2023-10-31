@@ -20,7 +20,7 @@ public class OpenApiConfig {
 				.info(new Info()
 						.title("App Cadastro de cliente")
 						.description("Este aplicativo faz controle de cadastro de cliente")
-						.contact(new Contact().name("Nome").email("email").url("url"))
+						.contact(new Contact().name("Rogerio").email("email").url("url"))
 						.version("Versão 0.0.1-SNAPSHOT"));
 	}
 }
