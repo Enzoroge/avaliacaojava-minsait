@@ -16,12 +16,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.rogerio.avaliacaoJava.model.Contato;
+import br.com.rogerio.avaliacaoJava.model.Pessoa;
 import br.com.rogerio.avaliacaoJava.service.ContatoService;
+import br.com.rogerio.avaliacaoJava.service.PessoaService;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping(value = "/contatos")
 public class ContatoResource {
+	
+	private PessoaService pessoaService;
+
+	@Autowired
+	public void PessoaResource(PessoaService pessoaService) {
+		this.pessoaService = pessoaService;
+	}
 
 	private ContatoService contatoService;
 
@@ -32,10 +41,10 @@ public class ContatoResource {
 
 	@Operation(summary = "Método para adcionar um contato a uma pessoa")
 	@PostMapping(value = "/pessoas/{id}/contatos")
-	public ResponseEntity<Contato> save(@RequestBody Contato obj) {
-		return new ResponseEntity<>(contatoService.save(obj), HttpStatus.CREATED);
+	public ResponseEntity<Contato> save(@RequestBody Contato contato) {
+		return new ResponseEntity<>(contatoService.save(contato), HttpStatus.CREATED);
 	}
-
+		
 	@Operation(summary = "Metodo para Listar todos os contatos")
 	@GetMapping
 	public ResponseEntity<List<Contato>> getAll() {

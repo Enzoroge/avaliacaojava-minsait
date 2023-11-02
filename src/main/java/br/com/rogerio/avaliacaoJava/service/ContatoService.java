@@ -20,7 +20,6 @@ public class ContatoService implements ContatoServiceInterface {
 
 	@Override
 	public Contato save(Contato contato) {
-
 		return contatoRepository.save(contato);
 	}
 

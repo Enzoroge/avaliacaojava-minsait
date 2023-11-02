@@ -21,7 +21,6 @@ public class PessoaService implements PessoaServiceInterface {
 
 	@Override
 	public Pessoa save(Pessoa pessoa) {
-
 		return pessoaRepository.save(pessoa);
 	}
 
@@ -62,7 +61,6 @@ public class PessoaService implements PessoaServiceInterface {
 	}
 
 	public Optional<Pessoa> findById(Long id) {
-		// TODO Auto-generated method stub
 		return pessoaRepository.findById(id);
 	}
 

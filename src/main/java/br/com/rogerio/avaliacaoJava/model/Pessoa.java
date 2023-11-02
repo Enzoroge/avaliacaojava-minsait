@@ -1,30 +1,46 @@
 package br.com.rogerio.avaliacaoJava.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "pessoas")
-public class Pessoa {
+public class Pessoa implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	
+	@NotBlank
 	private String nome;
 
 	private String endereco;
 	private String cep;
 	private String cidade;
 	private String uf;
+	
+	
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "pessoa")
+	private List<Contato> contato = new ArrayList<>();
+	
 
 	public Pessoa() {
 		super();
@@ -88,7 +104,8 @@ public class Pessoa {
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
-
+	
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

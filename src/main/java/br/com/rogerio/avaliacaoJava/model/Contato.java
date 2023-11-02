@@ -1,29 +1,32 @@
 package br.com.rogerio.avaliacaoJava.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "contatos")
-public class Contato {
+public class Contato implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Integer tipoContato;
 	private String contato;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pessoa_id", referencedColumnName = "id")
+	@ManyToOne
+	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
 
 	public Contato() {
@@ -62,6 +65,7 @@ public class Contato {
 		this.contato = contato;
 	}
 
+	
 	public Pessoa getPessoa() {
 		return pessoa;
 	}
@@ -86,5 +90,9 @@ public class Contato {
 		Contato other = (Contato) obj;
 		return Objects.equals(id, other.id);
 	}
+
+	
+
+	
 
 }

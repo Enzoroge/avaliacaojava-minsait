@@ -19,6 +19,7 @@ import br.com.rogerio.avaliacaoJava.dto.PessoaDTO;
 import br.com.rogerio.avaliacaoJava.model.Pessoa;
 import br.com.rogerio.avaliacaoJava.service.PessoaService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/pessoas")
@@ -33,7 +34,7 @@ public class PessoaResource {
 
 	@Operation(summary = "Método para cadastrar pessoas")
 	@PostMapping
-	public ResponseEntity<Pessoa> save(@RequestBody Pessoa pessoa) {
+	public ResponseEntity<Pessoa> save(@Valid @RequestBody Pessoa pessoa) {
 		Pessoa novaPessoa = pessoaService.save(pessoa);
 		if (novaPessoa == null) {
 			return ResponseEntity.notFound().build();
