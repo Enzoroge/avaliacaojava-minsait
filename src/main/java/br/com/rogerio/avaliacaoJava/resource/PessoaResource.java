@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.rogerio.avaliacaoJava.dto.PessoaDTO;
 import br.com.rogerio.avaliacaoJava.model.Pessoa;
 import br.com.rogerio.avaliacaoJava.service.PessoaService;
+import br.com.rogerio.avaliacaoJava.service.exceptions.ResourceNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
@@ -44,13 +46,19 @@ public class PessoaResource {
 
 	@Operation(summary = "Método para buscar pessoas pelo Id")
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Optional<Pessoa>> getById(@PathVariable Long id) {
-		Optional<Pessoa> pessoa = pessoaService.findById(id);
-		if (pessoa == null)
-			return ResponseEntity.notFound().build();
-		return ResponseEntity.ok(pessoa);
+	public ResponseEntity<Optional<Pessoa>> findById1(@PathVariable Long id) {
+		Optional<Pessoa> obj = pessoaService.findById(id);
+		if(obj ==	 null) {
+			return ResponseEntity.notFound().build();	
+			
+			
+		}
+		
+		return ResponseEntity.ok().body(obj);
 	}
 	
+	
+
 	@Operation(summary = "Método para listar todas as pessoas")
 	@GetMapping
 	public ResponseEntity<List<Pessoa>> getAllPessoas(){
@@ -89,9 +97,14 @@ public class PessoaResource {
 	
 	@Operation(summary = "Método para deletar uma pessoa")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable Long id){
-		pessoaService.delete(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public void delete(@PathVariable Long id){
+		try {
+		pessoaService.delete(id);	
+    }catch (EmptyResultDataAccessException e) {
+    	throw new ResourceNotFoundException(id);	
+    }
+		
+		
 	}
 
 }
