@@ -3,7 +3,7 @@ package br.com.rogerio.avaliacaoJava.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,9 +23,9 @@ public class Contato implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@NotEmpty(message = "O tipo de contato é obrigatório")
+	@org.hibernate.validator.constraints.NotEmpty(message = "O tipo de contato é obrigatório")
 	private Integer tipoContato;
-	@NotEmpty
+	@NotEmpty(message= "O contato deve ser informado")
 	private String contato;
 
 	@ManyToOne

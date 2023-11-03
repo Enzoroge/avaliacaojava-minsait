@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.rogerio.avaliacaoJava.model.Contato;
-import br.com.rogerio.avaliacaoJava.model.Pessoa;
+
 import br.com.rogerio.avaliacaoJava.service.ContatoService;
 import br.com.rogerio.avaliacaoJava.service.PessoaService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/contatos")
@@ -41,7 +42,7 @@ public class ContatoResource {
 
 	@Operation(summary = "Método para adcionar um contato a uma pessoa")
 	@PostMapping(value = "/pessoas/{id}/contatos")
-	public ResponseEntity<Contato> save(@RequestBody Contato contato) {
+	public ResponseEntity<Contato> save(@Valid @RequestBody Contato contato) {
 		return new ResponseEntity<>(contatoService.save(contato), HttpStatus.CREATED);
 	}
 		

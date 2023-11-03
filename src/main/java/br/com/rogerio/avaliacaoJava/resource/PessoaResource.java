@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.rogerio.avaliacaoJava.dto.PessoaDTO;
 import br.com.rogerio.avaliacaoJava.model.Pessoa;
 import br.com.rogerio.avaliacaoJava.service.PessoaService;
-import br.com.rogerio.avaliacaoJava.service.exceptions.ResourceNotFoundException;
+import br.com.rogerio.avaliacaoJava.service.exceptions.ObjectNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
@@ -48,22 +47,18 @@ public class PessoaResource {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Optional<Pessoa>> findById1(@PathVariable Long id) {
 		Optional<Pessoa> obj = pessoaService.findById(id);
-		if(obj ==	 null) {
-			return ResponseEntity.notFound().build();	
-			
-			
+		if (obj.isEmpty()) {
+			 throw new ObjectNotFoundException("Pessoa não encontrada com o ID: " + id);
 		}
-		
+
 		return ResponseEntity.ok().body(obj);
 	}
-	
-	
 
 	@Operation(summary = "Método para listar todas as pessoas")
 	@GetMapping
-	public ResponseEntity<List<Pessoa>> getAllPessoas(){
+	public ResponseEntity<List<Pessoa>> getAllPessoas() {
 		List<Pessoa> pessoa = pessoaService.getAll();
-		if(pessoa == null) {
+		if (pessoa == null) {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(pessoa);
@@ -84,27 +79,22 @@ public class PessoaResource {
 			return ResponseEntity.notFound().build();
 		}
 	}
-	
+
 	@Operation(summary = "Método para atualizar uma pessoa existente")
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Pessoa> update(@RequestBody Pessoa pessoa){
+	public ResponseEntity<Pessoa> update(@RequestBody Pessoa pessoa) {
 		Pessoa novaPessoa = pessoaService.update(pessoa);
-		if(novaPessoa == null) {
+		if (novaPessoa == null) {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(novaPessoa);
 	}
-	
+
 	@Operation(summary = "Método para deletar uma pessoa")
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id){
-		try {
-		pessoaService.delete(id);	
-    }catch (EmptyResultDataAccessException e) {
-    	throw new ResourceNotFoundException(id);	
-    }
-		
-		
+	public void delete(@PathVariable Long id) {
+		pessoaService.delete(id);
+
 	}
 
 }
