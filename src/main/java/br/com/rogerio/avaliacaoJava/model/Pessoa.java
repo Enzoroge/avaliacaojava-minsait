@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "pessoas")
@@ -27,7 +28,7 @@ public class Pessoa implements Serializable {
 	private Long id;
 
 	
-	@NotBlank
+	@NotEmpty(message= "O campo nome é obrigatório")
 	private String nome;
 
 	private String endereco;
