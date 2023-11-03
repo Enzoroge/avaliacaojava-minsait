@@ -69,11 +69,11 @@ public class ContatoResource {
 	@Operation(summary = "Método para atualizar um contato existente")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Contato> update(@RequestBody Contato contato){
-		return new ResponseEntity(contatoService.update(contato), HttpStatus.CREATED);
+		return new ResponseEntity(contatoService.update(contato), HttpStatus.OK);
 	}
 	
 	@Operation(summary = "Método para remover um contato")
-	@DeleteMapping(value="/api/contatos/{id}")
+	@DeleteMapping(value="/{id}")
 		public ResponseEntity<?> delete(@PathVariable Long id){
 			contatoService.delete(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);

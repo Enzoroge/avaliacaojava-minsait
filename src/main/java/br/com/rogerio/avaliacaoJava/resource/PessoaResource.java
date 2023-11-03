@@ -39,7 +39,7 @@ public class PessoaResource {
 		if (novaPessoa == null) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(novaPessoa);
+		return new ResponseEntity<>(pessoaService.save(pessoa), HttpStatus.CREATED);
 	}
 
 	@Operation(summary = "Método para buscar pessoas pelo Id")
