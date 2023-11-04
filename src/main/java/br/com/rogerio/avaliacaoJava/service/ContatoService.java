@@ -53,7 +53,7 @@ public class ContatoService implements ContatoServiceInterface {
 	@Override
 	public void delete(Long id) {
 		if (!contatoRepository.existsById(id)) {
-			 throw new ObjectNotFoundException("Pessoa não encontrada com o ID: " + id);
+			 throw new ObjectNotFoundException("Contato não encontrada com o ID: " + id);
 		}
 		contatoRepository.deleteById(id);
 

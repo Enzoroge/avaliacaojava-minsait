@@ -3,7 +3,6 @@ package br.com.rogerio.avaliacaoJava.service;
 import java.util.List;
 import java.util.Optional;
 
-
 import org.springframework.stereotype.Service;
 import br.com.rogerio.avaliacaoJava.dto.PessoaDTO;
 import br.com.rogerio.avaliacaoJava.model.Pessoa;
@@ -28,12 +27,12 @@ public class PessoaService implements PessoaServiceInterface {
 	@Override
 	public Optional<PessoaDTO> getById(Long id) {
 		return Optional.empty();
-	}	
-	
+	}
+
 	@Override
-	public Optional<Pessoa> getById1(Long id){
+	public Optional<Pessoa> getById1(Long id) {
 		Optional<Pessoa> obj = pessoaRepository.findById(id);
-		return Optional.of(obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado Id:" + id )));
+		return Optional.of(obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado Id:" + id)));
 	}
 
 	@Override
@@ -52,19 +51,19 @@ public class PessoaService implements PessoaServiceInterface {
 			newPessoa.setNome(pessoa.getNome());
 			newPessoa.setUf(pessoa.getUf());
 			return pessoaRepository.save(newPessoa);
-		}else {
-	        throw new ObjectNotFoundException("Pessoa não encontrada com o ID: " + pessoa.getId());
-	    }
-		
+		} else {
+			throw new ObjectNotFoundException("Pessoa não encontrada com o ID: " + pessoa.getId());
+		}
+
 	}
 
 	@Override
 	public void delete(Long id) {
 		if (!pessoaRepository.existsById(id)) {
-			 throw new ObjectNotFoundException("Pessoa não encontrada com o ID: " + id);
+			throw new ObjectNotFoundException("Pessoa não encontrada com o ID: " + id);
 		}
 		pessoaRepository.deleteById(id);
-		
+
 	}
 
 	public Optional<Pessoa> findById(Long id) {
@@ -72,7 +71,7 @@ public class PessoaService implements PessoaServiceInterface {
 	}
 
 	public boolean existsById(Long id) {
-			return pessoaRepository.existsById(id);
+		return pessoaRepository.existsById(id);
 	}
 
 }

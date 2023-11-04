@@ -48,7 +48,7 @@ public class PessoaResource {
 	public ResponseEntity<Optional<Pessoa>> findById1(@PathVariable Long id) {
 		Optional<Pessoa> obj = pessoaService.findById(id);
 		if (obj.isEmpty()) {
-			 throw new ObjectNotFoundException("Pessoa não encontrada com o ID: " + id);
+			throw new ObjectNotFoundException("Pessoa não encontrada com o ID: " + id);
 		}
 
 		return ResponseEntity.ok().body(obj);
@@ -59,7 +59,7 @@ public class PessoaResource {
 	public ResponseEntity<List<Pessoa>> getAllPessoas() {
 		List<Pessoa> pessoa = pessoaService.getAll();
 		if (pessoa.isEmpty()) {
-			 throw new ObjectNotFoundException("Lista não encontrada ou vazia " );
+			throw new ObjectNotFoundException("Lista não encontrada ou vazia ");
 		}
 		return ResponseEntity.ok(pessoa);
 	}
@@ -76,7 +76,7 @@ public class PessoaResource {
 			PessoaDTO pessoaDTO = new PessoaDTO(pessoa.getId(), pessoa.getNome(), malaDireta);
 			return ResponseEntity.ok(pessoaDTO);
 		} else {
-			 throw new ObjectNotFoundException("Pessoa não encontrada com o ID: " + id);
+			throw new ObjectNotFoundException("Pessoa não encontrada com o ID: " + id);
 		}
 	}
 
@@ -93,8 +93,7 @@ public class PessoaResource {
 	@Operation(summary = "Método para deletar uma pessoa")
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
-		 
-		
+
 		pessoaService.delete(id);
 
 	}
