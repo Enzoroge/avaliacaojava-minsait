@@ -73,7 +73,8 @@ public class ContatoResource {
 
 	@Operation(summary = "Método para atualizar um contato existente")
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Contato> update(@PathVariable Long id, @RequestBody Contato contato) {
+	public ResponseEntity<Contato> update(@PathVariable Long id, @Valid @RequestBody Contato contato) {
+		contato.setId(id);
 		if (contato == null) {
 			return ResponseEntity.notFound().build();
 		}

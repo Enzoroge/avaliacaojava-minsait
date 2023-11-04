@@ -82,7 +82,8 @@ public class PessoaResource {
 
 	@Operation(summary = "Método para atualizar uma pessoa existente")
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Pessoa> update(@PathVariable Long id, @RequestBody Pessoa pessoa) {
+	public ResponseEntity<Pessoa> update(@PathVariable Long id, @Valid @RequestBody Pessoa pessoa) {
+		pessoa.setId(id);
 		Pessoa novaPessoa = pessoaService.update(pessoa);
 		if (novaPessoa == null) {
 			return ResponseEntity.notFound().build();
