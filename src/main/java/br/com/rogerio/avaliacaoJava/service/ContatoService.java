@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.rogerio.avaliacaoJava.model.Contato;
 import br.com.rogerio.avaliacaoJava.repository.ContatoRepository;
+import br.com.rogerio.avaliacaoJava.service.exceptions.ObjectNotFoundException;
 import br.com.rogerio.avaliacaoJava.service.interfaces.ContatoServiceInterface;
 
 @Service
@@ -25,7 +26,8 @@ public class ContatoService implements ContatoServiceInterface {
 
 	@Override
 	public Optional<Contato> getById(Long id) {
-		return contatoRepository.findById(id);
+		Optional<Contato> obj = contatoRepository.findById(id);
+		return Optional.of(obj.orElseThrow(() -> new ObjectNotFoundException("Contato não encontrado Id:" + id )));
 	}
 
 	@Override
@@ -42,12 +44,17 @@ public class ContatoService implements ContatoServiceInterface {
 			newContato.setTipoContato(contato.getTipoContato());
 			newContato.setPessoa(contato.getPessoa());
 			return contatoRepository.save(newContato);
-		}
-		return contato;
+		}else {
+	        throw new ObjectNotFoundException("Contato não encontrado com o ID: " + contato.getId());
+	    }
+		
 	}
 
 	@Override
 	public void delete(Long id) {
+		if (!contatoRepository.existsById(id)) {
+			 throw new ObjectNotFoundException("Pessoa não encontrada com o ID: " + id);
+		}
 		contatoRepository.deleteById(id);
 
 	}

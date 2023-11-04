@@ -1,5 +1,6 @@
 package br.com.rogerio.avaliacaoJava.resource.exception;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -31,6 +32,16 @@ public class ResourceExceptionHandler {
 
 	    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<StandardError> handleDataIntegrityViolation(DataIntegrityViolationException e) {
+	    StandardError error = new StandardError(System.currentTimeMillis(),
+	            HttpStatus.BAD_REQUEST.value(), "O contato deve estar associado a uma pessoa");
+	  
+
+	    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	}
+
 	
 
 

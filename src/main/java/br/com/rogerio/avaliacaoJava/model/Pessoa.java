@@ -47,7 +47,10 @@ public class Pessoa implements Serializable {
 
 	}
 
-	public Pessoa(Long id, String nome, String endereco, String cep, String cidade, String uf) {
+	
+
+	public Pessoa(Long id, @NotEmpty(message = "O campo nome é obrigatório") String nome, String endereco, String cep,
+			String cidade, String uf, List<Contato> contato) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -55,6 +58,7 @@ public class Pessoa implements Serializable {
 		this.cep = cep;
 		this.cidade = cidade;
 		this.uf = uf;
+		this.contato = contato;
 	}
 
 	public Long getId() {
@@ -68,6 +72,18 @@ public class Pessoa implements Serializable {
 	public String getNome() {
 		return nome;
 	}
+
+	public List<Contato> getContato() {
+		return contato;
+	}
+
+
+
+	public void setContato(List<Contato> contato) {
+		this.contato = contato;
+	}
+
+
 
 	public void setNome(String nome) {
 		this.nome = nome;
@@ -123,4 +139,5 @@ public class Pessoa implements Serializable {
 		return Objects.equals(id, other.id);
 	}
 
+	
 }

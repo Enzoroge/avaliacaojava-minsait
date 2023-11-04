@@ -52,18 +52,27 @@ public class PessoaService implements PessoaServiceInterface {
 			newPessoa.setNome(pessoa.getNome());
 			newPessoa.setUf(pessoa.getUf());
 			return pessoaRepository.save(newPessoa);
-		}
-		return pessoa;
+		}else {
+	        throw new ObjectNotFoundException("Pessoa não encontrada com o ID: " + pessoa.getId());
+	    }
+		
 	}
 
 	@Override
 	public void delete(Long id) {
+		if (!pessoaRepository.existsById(id)) {
+			 throw new ObjectNotFoundException("Pessoa não encontrada com o ID: " + id);
+		}
 		pessoaRepository.deleteById(id);
 		
 	}
 
 	public Optional<Pessoa> findById(Long id) {
 		return pessoaRepository.findById(id);
+	}
+
+	public boolean existsById(Long id) {
+			return pessoaRepository.existsById(id);
 	}
 
 }

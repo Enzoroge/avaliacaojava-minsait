@@ -3,8 +3,6 @@ package br.com.rogerio.avaliacaoJava.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +10,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 
 @Entity
 @Table(name = "contatos")
@@ -23,7 +25,9 @@ public class Contato implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@org.hibernate.validator.constraints.NotEmpty(message = "O tipo de contato é obrigatório")
+	@NotNull(message = "O tipo contato deve ser informado")
+	@Min(value = 0, message = "O numero informado deve ser 1 ou 0" )
+	@Max(value = 1, message = "O numero informado deve ser 1 ou 0")
 	private Integer tipoContato;
 	@NotEmpty(message= "O contato deve ser informado")
 	private String contato;

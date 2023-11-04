@@ -58,8 +58,8 @@ public class PessoaResource {
 	@GetMapping
 	public ResponseEntity<List<Pessoa>> getAllPessoas() {
 		List<Pessoa> pessoa = pessoaService.getAll();
-		if (pessoa == null) {
-			return ResponseEntity.notFound().build();
+		if (pessoa.isEmpty()) {
+			 throw new ObjectNotFoundException("Lista não encontrada ou vazia " );
 		}
 		return ResponseEntity.ok(pessoa);
 	}
@@ -76,13 +76,13 @@ public class PessoaResource {
 			PessoaDTO pessoaDTO = new PessoaDTO(pessoa.getId(), pessoa.getNome(), malaDireta);
 			return ResponseEntity.ok(pessoaDTO);
 		} else {
-			return ResponseEntity.notFound().build();
+			 throw new ObjectNotFoundException("Pessoa não encontrada com o ID: " + id);
 		}
 	}
 
 	@Operation(summary = "Método para atualizar uma pessoa existente")
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Pessoa> update(@RequestBody Pessoa pessoa) {
+	public ResponseEntity<Pessoa> update(@PathVariable Long id, @RequestBody Pessoa pessoa) {
 		Pessoa novaPessoa = pessoaService.update(pessoa);
 		if (novaPessoa == null) {
 			return ResponseEntity.notFound().build();
@@ -93,6 +93,8 @@ public class PessoaResource {
 	@Operation(summary = "Método para deletar uma pessoa")
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
+		 
+		
 		pessoaService.delete(id);
 
 	}

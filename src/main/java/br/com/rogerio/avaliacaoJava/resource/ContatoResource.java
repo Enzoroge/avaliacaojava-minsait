@@ -16,16 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.rogerio.avaliacaoJava.model.Contato;
-
+import br.com.rogerio.avaliacaoJava.model.Pessoa;
 import br.com.rogerio.avaliacaoJava.service.ContatoService;
 import br.com.rogerio.avaliacaoJava.service.PessoaService;
+import br.com.rogerio.avaliacaoJava.service.exceptions.ObjectNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/contatos")
 public class ContatoResource {
-	
+
 	private PessoaService pessoaService;
 
 	@Autowired
@@ -45,16 +46,19 @@ public class ContatoResource {
 	public ResponseEntity<Contato> save(@Valid @RequestBody Contato contato) {
 		return new ResponseEntity<>(contatoService.save(contato), HttpStatus.CREATED);
 	}
-		
-	@Operation(summary = "Metodo para Listar todos os contatos")
-	@GetMapping
-	public ResponseEntity<List<Contato>> getAll() {
-		List<Contato> contato = contatoService.getAll();
-		if (contato == null) {
-			return ResponseEntity.notFound().build();
 
+	@Operation(summary = "Método para listar todos os contatos de uma pessoa por ID")
+	@GetMapping("pessoas/{id}/contatos")
+	public ResponseEntity<List<Contato>> getAllByPessoaId(@PathVariable Long id) {
+		Optional<Pessoa> pessoaOptional = pessoaService.findById(id);
+
+		if (pessoaOptional.isPresent()) {
+			Pessoa pessoa = pessoaOptional.get();
+			List<Contato> contatos = pessoa.getContato();
+			return ResponseEntity.ok(contatos);
+		} else {
+			throw new ObjectNotFoundException("Pessoa não encontrada com o ID: " + id);
 		}
-		return ResponseEntity.ok().body(contato);
 	}
 
 	@Operation(summary = "Método para buscar um contato por id")
@@ -66,20 +70,22 @@ public class ContatoResource {
 		}
 		return ResponseEntity.ok().body(contato);
 	}
-	
+
 	@Operation(summary = "Método para atualizar um contato existente")
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Contato> update(@RequestBody Contato contato){
+	public ResponseEntity<Contato> update(@PathVariable Long id, @RequestBody Contato contato) {
+		if (contato == null) {
+			return ResponseEntity.notFound().build();
+		}
 		return new ResponseEntity(contatoService.update(contato), HttpStatus.OK);
 	}
-	
+
 	@Operation(summary = "Método para remover um contato")
-	@DeleteMapping(value="/{id}")
-		public ResponseEntity<?> delete(@PathVariable Long id){
-			contatoService.delete(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			
-		
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<?> delete(@PathVariable Long id) {
+		contatoService.delete(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
 	}
 
 }
